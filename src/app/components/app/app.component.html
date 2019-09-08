@@ -1,0 +1,373 @@
+<div id="inc" [ngSwitch]="temp">
+	
+	<!--w/app-->
+	<ng-container *ngSwitchCase="'app'">
+		<w-admin-panel *ngIf="this.dnWAdminPanel.show"></w-admin-panel>
+		<div class="ui vertical segment">
+			<!--<div class="ui segment">
+				<div class="ui right floated button">edit carousal</div>
+			</div>-->
+			<div class="ui secondary menu">
+				<div class="ui item">
+					<h2 class="ui large header">Header Slideshow<div class="ui violet label">1.0</div> </h2>
+				</div>
+				<div class="right menu">
+					<div class="item">
+						<button name="button:editCarousel" class="ui violet button" (click)="click($event)">Edit Carousel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="ui vertical segment">
+			<w-carousal [value]="setCarousel()" ></w-carousal>
+		</div>
+		<div class="ui vertical segment">
+			<!--se/info message-->
+			<div class="ui success message"> <!--negative-->
+			  <i class="close icon"></i>
+			  <div class="header">
+			    Carousel JSON setting object:
+			  </div>
+			  <p>{{ serverResponseText }}</p>
+			</div>
+		</div>
+		<!--stare-->
+		<!--<div>APP</div>
+		<w-carousal [value]="setCarousel()"></w-carousal>-->
+	</ng-container>
+
+	<!--w/carousal-->
+	<ng-container *ngSwitchCase="'w/carousal'">
+		<!--<span>w/carousel</span>-->
+		<!--<div>
+			<p>sliderData: {{ data.subHeader }}</p>
+		</div>-->
+		<div class="ui fluid container">
+			<div class="ui slides"> <!--text container--> 
+				<i class="big left angle icon" (click)="onPrevNav()"></i>
+				<i class="big right angle icon" (click)="onNextNav()"></i>
+				
+				<ng-container #slide *ngFor="let item of value" >
+					<div class="image slide" [ngClass]="{ 'active': item.active }">
+						<!--<h2>{{ item.header }}</h2>-->
+						<div class="line"></div>
+						<h2>Welcome to our Brandportal</h2>
+						<!--<p>slide: {{ item.name }}</p>-->
+						<button name="ui/button:slideBtn" class="ui white button" (click)="click($event, item)"><span style="color: black;">{{ item.linkTo.text }}</span></button>
+					</div>
+				</ng-container>
+
+				<!-- <div class="slide active">
+					<h1>Slide one</h1>
+					<p>Plain text.</p>
+				</div>
+				<div class="inverted shadow blurred image slide">
+					<h1>Slide two</h1>
+					<p>Background image using <code>.inverted</code>, <code>.shadow</code>, and <code>.blurred</code>:</p>
+					<p><code>class="inverted shadow blurred image slide"</code></p>
+				</div>
+				<div class="inverted salmon faded slide">
+					<h1>Slide three</h1>
+					<p>Background color using <code>.inverted</code>, <code>.salmon</code>, and <code>.faded</code>:</p>
+					<p><code>class="inverted faded salmon slide"</code></p>
+				</div> -->
+			</div>
+		</div>
+	</ng-container>
+
+	<!--w/adminPanel /8:53- -->
+	<ng-container *ngSwitchCase="'w/adminPanel'">
+		<sui-modal [isClosable]="false" size="normal" #modal>
+		    <div class="w-admin-panel header">
+				<span name="ui/text:header" class="ui medium header">Header Settings</span>
+				<!--<span name="ui/t-title">Set name</span>-->
+				<div class="ui right floated small icon buttons">
+					<button name="ui/button:close" class="ui basic button" (click)="click($event, modal)">
+				  		<i class="close icon"></i>
+				  	</button>
+				</div>
+			</div>
+			<div class="w-admin-panel content">
+				<!--<div name="ui/inputText:subheader" class="ui input">
+					<input type="text" placeholder="subheader" [(ngModel)]="data.sliderTemp.subHeader">
+				</div>-->
+				<div class="ui basic segments no-padding ">
+					<!--se/carousal basic settings -->
+					<div class="ui basic segment no-padding ">
+						<div class="ui horizontal segments no-padding ">
+							<div class="se-size ui basic segment">
+								<h4 class="ui header">size</h4>
+								<!--ui/buttonSwitch:sizes-->
+								<div class="ui basic buttons">
+									<button class="ui blue button"><b>S</b></button>
+									<button class="ui button active"><b>M</b></button>
+									<button class="ui purple button"><b>L</b></button>
+								</div>
+							</div>
+							<!--<div class="ui vertical divider"></div>-->
+							<div class="ui basic segment">
+								<h4 class="ui header">animation</h4>
+								<!--ui/dropdown:animationType-->
+								<!--<div class="ui selection dropdown">
+									<input type="hidden" name="gender">
+									<i class="dropdown icon"></i>
+									<div class="default text">Type</div>
+									<div class="menu">
+										<div class="item" data-value="1">Type A</div>
+										<div class="item" data-value="0">Type B</div>
+									</div>
+								</div>-->
+								<sui-select class="selection" [options]="['A','B','C','D']" placeholder="animation" #select>
+									<sui-select-option *ngFor="let option of select.filteredOptions" [value]="option"></sui-select-option>
+								</sui-select>
+							</div>
+							<div class="ui basic segment">
+								<h4 class="ui header">&nbsp;</h4>
+								<!--ui/dropdown:animationInterval-->
+								<sui-select class="selection" [options]="['A','B','C','D']" placeholder="interval" [isDisabled]="true" #select>
+									<sui-select-option *ngFor="let option of select.filteredOptions" [value]="option"></sui-select-option>
+								</sui-select>
+							</div>
+						</div>
+					</div>
+					<div class="ui fitted divider"></div>
+					<!--se/tilesEditor-->
+					<div class="ui basic segment no-padding ">
+						<w-tiles-editor [data]="this.data"></w-tiles-editor>
+					</div>
+				</div>
+			</div>
+			<div class="w-admin-panel actions">
+				<div name="ui/button:save" class="ui violet large button" (click)="click($event, modal)"> Save </div>
+			</div>
+		</sui-modal>
+	</ng-container>
+
+	<!--w/tilesEditor-->
+	<ng-container *ngSwitchCase="'w/tilesEditor'">
+		<div class="w-tiles-editor ui segments">
+			<div class="ui clearing segment">
+				<div name="ui/text:header" class="ui small header">
+					<span name="ui/text:header">Tiles</span>
+					<div id="create-tile" name="ui/button:createSlide" class="ui right floated basic button" (click)="click($event)">
+				  		<i class="violet large plus circle icon"></i>
+				  		<b>Add Tile</b>
+				  	</div>
+				</div>
+			</div>
+			
+			<div class="w-tiles-editor ui segments border">
+				<div class="ui horizontal segments">
+					<div class="tiles-header ui secondary segment"><b>SUBHEADER</b></div>
+					<div class="tiles-header ui secondary segment"><b>HEADING</b></div>
+					<div class="tiles-header ui secondary segment"><b>BACKGROUND</b></div>
+				</div>
+				<div class="ui segment" style="padding: 0;">
+					<ng-container *ngFor="let item of data.sliderTemp.slides">
+						<w-tile-item [dnWAdminPanel]="this.data" [data]="item"></w-tile-item>
+					</ng-container>
+				</div>
+			</div>
+
+			<!--<div class="ui secondary segment">
+				<table name="ui/tab:tileItems" class="ui red table">
+					<thead>
+						<tr><th>Food</th>
+							<th>Calories</th>
+							<th>Protein</th>
+						</tr>
+					</thead>
+					<ng-container *ngFor="let item of data.sliderTemp.slides">
+						<w-tile-item [dnWAdminPanel]="this.data" [data]="item"></w-tile-item>
+					</ng-container>
+					<tbody>
+						
+						<tr *ngFor="let item of data.sliderTemp.slides">
+							<w-tile-item [dnWAdminPanel]="this.data" [data]="item"></w-tile-item>
+							<!~~<td>	
+								<w-tile-item></w-tile-item>
+							</td>~~>
+						</tr>
+					</tbody>
+				</table>
+			</div>-->
+		</div>
+	</ng-container>
+
+	<!--w/tileItem-->
+	<ng-container *ngSwitchCase="'w/tileItem'">
+		<div class="ui segments" style="border-top: 1px solid #dadada;">
+			<div class="w-tile-item ui three horizontal segments">
+				<div class="item-cell ui segment" style="width: 150px; border-color: white;">
+					<span><i name="ui/button/icon:drag" class="bars icon"></i></span>
+					<div name="ui/inputText:subheader" class="ui input">
+						<input type="text" placeholder="Search...">
+					</div>
+				</div>
+				<div class="item-cell ui segment" style="width: 150px; border-color: white;">
+					<div name="ui/inputText:header" class="ui input" style="margin-right: 10px;">
+						<input type="text" placeholder="Search...">
+					</div>
+					<div name="ui/switcher:inverted" class="ui fitted toggle checkbox">
+					<input type="checkbox">
+						<label></label>
+					</div>
+				</div>
+				<div class="item-cell ui segment" style="width: 150px; border-color: white;">
+					
+					<!--ui/dropdownBox:selectPhotoANDcolor-->
+					<ng-template let-popup #popupTemplate>
+						<!--<div class="header"></div>-->
+						<div class="content">
+							<div class="ui segments">
+								<div class="ui segment">
+									<div class="ui two column grid">
+										<div class="column">
+											<button class="ui compact icon button">
+											</button>
+											<button class="ui compact icon button">
+											</button>
+											<button class="ui compact icon button">
+											</button>
+											<br>
+											<button class="ui compact icon button">
+											</button>
+											<button class="ui compact icon button">
+											</button>
+											<button class="ui compact icon button">
+											</button>
+										</div>
+										<div class="column">
+											<img name="ui/image:photo" class="ui small image" src="https://semantic-ui.com/images/wireframe/image.png">
+										</div>
+									</div>
+								</div>
+								<div class="ui secondary segment">
+									<a name="ui/button:uploadImage" class="browse item visible" style="color: black;">
+										<i class="upload icon" style="color: #6435c9;"></i>
+										<b style="color: black;">Upload Image</b>
+									</a>
+								</div>
+							</div>
+						</div>
+					</ng-template>
+					<div class="ui simple dropdown item" suiPopup [popupTemplate]="popupTemplate" popupPlacement="bottom" popupTrigger="outsideClick">
+						<img class="ui mini image" src="https://semantic-ui.com/images/wireframe/image.png" style="float: left;">
+						<i class="dropdown floated left icon" style="float: left; margin-top: 8px;"></i>
+					</div>
+
+					<!--ui/button:moreActions-->
+					<div class="ui dropdown item" style="float: right; margin-top: 4px;" suiDropdown>
+						<i class="ellipsis horizontal icon"></i>
+						<div class="menu" suiDropdownMenu>
+							<a name="ui/dropdownMenu:moreActions" class="item" (click)="click($event, 'none')"><i class="clone outline icon"></i> Duplicate</a>
+							<a name="ui/dropdownMenu:moreActions" class="item" (click)="click($event, 'delete')"><i class="plus icon"></i> More Options</a>
+							<a name="ui/dropdownMenu:moreActions" class="item" (click)="click($event, 'moreOptions')"><i class="trash alternate icon"></i> Delete</a>
+						</div>
+					</div>
+
+					<span *ngIf="true"><i name="ui/icon:delete" class="trash alternate icon" style="float: right; margin-top: 4px;" (click)="click($event)"></i></span>
+				</div>
+			</div>
+			<div *ngIf="this.open" class="w-tile-item ui horizontal segments" style="padding: 5px 40px 10px 40px;  border-color: white;">
+				<div class="item-cell ui segment">
+					<h5>Btn text</h5>
+					<div name="ui/inputText:header" class="ui input">
+						<input type="text" placeholder="input B">
+					</div>
+				</div>
+				<div class="item-cell ui segment">
+					<h5>Btn link</h5>
+					<div name="ui/inputText:header" class="ui input">
+						<input type="text" placeholder="input B">
+					</div>
+				</div>
+				<div class="item-cell ui segment">
+					<h5>&nbsp;</h5>
+					<sui-select class="selection" [options]="['A','B','C','D']" #select>
+						<sui-select-option *ngFor="let option of select.filteredOptions" [value]="option"></sui-select-option>
+					</sui-select>
+				</div>
+			</div>
+		</div>
+	</ng-container>
+</div>
+
+<div class="">
+	<!--<div class="ui segments">
+		<div class="ui segment">
+			
+			
+			<!~~ui/dropdownBox:selectPhotoANDcolor~~>
+			<!~~<div class="ui button"></div>
+			<div class="ui simple dropdown item">
+				<img class="ui mini image" src="https://semantic-ui.com/images/wireframe/image.png">
+				<i class="dropdown icon"></i>
+			</div>
+			<div class="ui popup bottom center transition hidden">
+				<div class="ui segments">
+					<div class="ui segment">
+						<div class="ui three column grid">
+							<div class="column">
+								<!~~ui/colorPalete~~>
+								<button class="ui compact icon button">
+								</button>
+								<button class="ui compact icon button">
+								</button>
+								<button class="ui compact icon button">
+								</button>
+								<br>
+								<button class="ui compact icon button">
+								</button>
+								<button class="ui compact icon button">
+								</button>
+								<button class="ui compact icon button">
+								</button>
+							</div>
+							<div class="column">
+								<img name="ui/image:photo" class="ui small image" src="https://semantic-ui.com/images/wireframe/image.png">
+							</div>
+						</div>
+					</div>
+					<div class="ui secondary segment">
+						<a name="ui/button:uploadImage" class="browse item visible" style="">
+							<i class="dropdown icon"></i>
+							Upload image
+						</a>
+					</div>
+				</div>
+			</div>~~>
+
+			
+
+			
+		</div>
+
+		<!~~expandable~~>
+		<div class="ui segment" *ngIf="this.open">
+			<!~~<div class="ui tiny header">Tiny Header</div>
+			<div class="ui form">
+				<div class="inline field">
+					<label>Btn text</label>
+					<input type="text">
+				</div>
+			</div>
+			<div class="ui form">
+				<div class="inline field">
+					<label>Btn link</label>
+					<input type="text">
+				</div>
+			</div>
+			<div class="ui form">
+				<div class="inline field">
+					<input type="text">
+				</div>
+			</div>~~>
+			
+			
+		</div>
+	</div>-->
+</div>
+
+
+

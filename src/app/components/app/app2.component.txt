@@ -1,0 +1,214 @@
+<!-- <div class="ui menu">
+  <a class="item">item 1</a>
+  <a class="item">item 2</a>
+  <a class="item">item 3</a>
+  <a class="item">item 4</a>
+</div>
+ -->
+
+
+<!-- CSS-CON EXAMPLES -->
+<!-- <div id="" class="">
+</div> -->
+
+
+<!--// Legenda:
+	t/ - text 
+	- 
+-->
+
+<!-- SMS-RITELI - PAGES (13/13p), (0/74w,se) /zb.5h45m < (14x25m[2/14]) -->
+<!-- - > OK/p/HomePage // (0/14w,se) /25m -->
+<div id="homepage" class="" style="border: 2px solid blue;"> <!--p/homePage-->
+	<div name="" class="container big"> <!--// con/-->
+		
+		<!--REAL-->
+		<!--w/megaMenu-->
+		<div name="header" class="container stack fluid">
+			<div class="cel left">akce slevy</div>
+			<div class="cel left">osvetleni</div>
+			<div class="cel left">LED</div>
+			<div class="cel left">Inteligentni</div>
+			<div class="cel left">Mistnosti</div>
+		</div>
+		<div ame="se/contentWraper">- w/contentWraper
+			1
+		</div>
+
+		<!--TESTS-->
+
+		<!--<div class="container flex">1</div>
+		<div class="container flex">2</div>-->
+
+		<!--stack-3cel - str/A-->
+		<!--<div name="w/header" class="container stack fluid"><!~~- w/header~~> <!~~// con/ - vc/stack-3cel ~~>
+			<div class="cel left"> <!~~style="width: 100px;"~~>
+				1
+			</div>
+			<div class="cel center2">
+				2
+			</div>
+			<div class="cel right">
+				3
+			</div>
+		</div> <!~~// cnt/~~>-->
+
+		 <!-- ... -->
+		<!-- <div name="se/contentWraper" class="container fluid">- se/contentWraper
+		</div>
+		<div name="se/contentWraper" class="container fluid">- 2
+		</div> 
+		<div name="se/contentWraper" class="container fluid">- 3
+		</div>  -->
+
+		<!-- stack-3cel - test/1 -->
+		<!--<div class="container stack fluid">
+			<div class="cel left">1</div>
+			<div class="cel center">
+				<div class="container" style="width: 20%;">2</div>
+				<div class="cel left">3</div>
+			</div>
+		</div>-->
+		<!-- stack-3cel - test/2 -->
+		<!-- stack-3cel - test/3 -->
+
+		<!--stack-2cel [] - str/B-->
+		<!-- <div class="container stack fluid"">
+			<div class="cell left">1</div>
+			<div class="cell center">
+				<div class=""></div>
+			</div>
+		</div> -->
+	</div>
+</div>
+<!-- - OK/p/products view // (0/9w,se)  var/[...] // /35m -->
+<!--<div id="p/products view" class="" style="border: 2px solid blue;">
+	<div>- viz/ p/homePage.se/header</div>
+	<div>- w/ui/dorbeckoveMenu</div> <!~~ st/X, var/X ~~>
+	<div>- w/categoriesTab</div> <!~~ top ~~> <!~~ st/X, var/small,big,medium ~~>
+	<div>- w/filtersTab</div> <!~~ st/[less,more], var/xsmall,small,big,medium ~~>
+	<div>- w/productsView <!~~ st/X, var/xsmall,small,big,medium, ~~>
+		<div class="">w/ui/switchTab <!~~ st/open,close, var/small,big ~~>
+			<div class="">w/ui/dataTab</div> <!~~ producst ~~> <!~~ st/open,close, var/xsmall,small,big,medium ~~>
+		</div>
+	</div>
+	<div>- w/singPost-procMyLight</div> <!~~ st/X, var/small,big ~~>
+	<div>- w/categoriesTab</div> <!~~ bottom ~~> <!~~ st/X, var/small,big,medium ~~>
+	<div>- w/ui/textBlock</div> <!~~ st/X, var/X ~~>
+</div>-->
+<!-- - OK/p/product view // (0/10w,se)  var/[...] // /30m < v/productReviews -->
+<!--<div id="p/product view" class="" style="border: 2px solid blue;">
+	<div>- w/ui/dorbeckoveMenu</div> <!~~ st/X, var/X ~~>
+	<div class="">- w/productDetail <!~~ st/X, var/small,medium,big ~~>
+		<div class="">- w/prodctActionsBar</div> <!~~ st/ , var/ ~~>
+	</div> 
+	<div>- w/singPost-procMyLight</div> <!~~ st/X, var/small,big ~~>
+	<div>- w/productViewBookmarks</div> <!~~ st/X, var/[res - small,medium,big] ~~>
+	<div id="">- w/productInfo</div> <!~~ // popis, parametrsTab ~~>
+	<div id="">- w/slider produkty</div> <!~~ oslniloy - st/[idle,hover], var/[small(1,2),big(1,2)]   ~~>
+	<div id="">- w/productRatingAndReviews</div> <!~~ st/X, var/[res - small,medium,big] ~~>
+	<div>- w/productColVariantSelector</div>
+	<div>- w/ui/preBuyWindow</div> <!~~ st/X, var/[small,big] ~~>
+	<div>- viz/ p/homePage.se/footer</div>
+</div>-->
+<!-- - OK/p/brands view // (0/2w,se)  /40m - -->
+<!--<div class="p/brands view" class="" style="border: 2px solid blue;">
+	<div>- se/abcBar</div> <!~~ st/X, var/[res(1,2,3,4)] ~~>
+	<div>- se/brandsByABC</div> <!~~ st/X, var/[res(1,2,3,4)] ~~>
+</div>-->
+
+<!-- - OK/p/srovnání produktů // (0/1w,se) /6m- -->
+<!--<div class="p/" class="" style="border: 2px solid blue;"> <!~~ st/X, var/[small,medium,big] ~~>
+	<div class="" style="">- w/productsCompareTable</div> <!~~ st/X, var/idle,scroll ~~>
+</div>-->
+<!-- - OK/p/oblíbené //  (0/2w,se) /7m -->
+<!--<div class="p/" class="" style="border: 2px solid blue;">
+	<div>- w/productFavoritesTab <!~~ st/X, var/X ~~>
+		<div>- w/productTabItem</div> <!~~ st/X, var/small,medium,big ~~>
+	</div>
+</div>-->
+<!-- - OK/p/košík - kosik/adresa/doprava/porvrzeni  (0/15w,se) // /45m -->
+<!--<div class="p/" class="" style="border: 2px solid blue;">
+	<div>- w/ui/stepper  <!~~ // kroky zakoupeni ~~> <!~~ st/X, var/small,big ~~>
+		<div>- se/kosik
+			<div>- w/productBuyTab <!~~ st/X, var/small,big ~~>
+				<div>- w/productTabItem</div>  <!~~ st/X, var/small,medium,big ~~> 
+			</div>
+		</div>
+		<div>- se/adresa <!~~ st/X, var/small,big ~~> 
+			<div>- w/vKosiku</div>  <!~~ st/X, var/X ~~> 
+			<div>- w/formAdresa</div>  st/X, var/X 
+			<div>- Nebo/se/neprihlasenyUser</div> <!~~ st/X, var/X ~~> 
+		</div>
+		<div>- se/doprava</div> <!~~ st/X, var/small,big ~~> 
+			<div>- w/vKosiku</div>  <!~~ st/X, var/X ~~> 
+			<div>- w/formDoprava</div>  <!~~ st/X, var/X ~~> 
+			<div>- Nebo/se/neprihlasenyUser</div> <!~~ st/X, var/X ~~> 
+		<div>- se/potvrzeni
+			<div>- w/productConfirmTab <!~~ st/X, var/small,big ~~>
+				<div>- w/productTabItem</div>  <!~~ st/X, var/small,medium,big ~~> 
+			</div>
+		</div>
+	</div>
+</div>-->
+<!-- - X/p/košík - doprava -->
+<!-- - X/p/košík - potvrzení -->
+
+<!-- -  OK/p/userAccount  (0/7w,se) /17:30- -->
+<!--<div class="p/" class="" style="border: 2px solid blue;"> <!~~ st/X, var/[small,big] ~~>
+	<div>- w/ui-m/userSections</div>  <!~~ st/X, var/X ~~>
+	<div>- se/userSection  <!~~ st/X, var/X ~~> 
+		<div>- se/mujUcet</div>  <!~~ st/X, var/small,big ~~> 
+		<div>- se/mojeUdaje</div>  <!~~ st/X, var/small,big ~~> 
+		<div>- se/mojeAdresy  <!~~ st/X, var/small,big ~~> 
+			<div>- w/ui-mw/addNewAdress</div> <!~~ st/X, var/x ~~> 
+		</div> 
+		<div>- sp/user-recenzeHodnoceni</div>
+	</div>
+</div>-->
+<!-- - K/p/user-[UserPagse]/s -->
+<!-- -  OK/sp/user-recenzeHodnoceni  (0/7w,se) // < plg/OnlineCustumer.v/OmniReviews  -->
+<!--<div class="p/" class="" style="border: 2px solid blue;">
+	<div>- se/produktyOhodnocene <!~~ st/X, var/[small,big] ~~>
+		<div>- w/produktOhdonocenyItem</div> <!~~ st/X, var/[small,medium] ~~>
+	</div>
+	<div>- se/produktyKOhodnoceni <!~~ st/X, var/[small,big] ~~>
+		<div>- w/produktKOhdonoceníItem</div> <!~~ st/X, var/[X] ~~>
+	</div>
+	<div>- w/ui-msg/potvrzeniHodnoceniInLine</div> <!~~ st/X, var/X ~~>
+</div>-->
+<!-- - OK/sp/user-recenzeHodnoceni-napsat //  (0/2w,se) var/  // < plg/OnlineCustumer.v/addEditOmniReviews  -->
+<!--<div class="p/" class="" style="border: 2px solid blue;">
+	<div>- w/ui-sr/ratingProduktu</div> <!~~ st/X, var/X ~~> 
+	<div>- se/formProduktHodnoceni</div> <!~~ st/X, var/[small,big] ~~>
+</div>-->
+<!-- - OK/sp/user-recenzeHodnoceni-potvrzeni //  (0/1w,se) plg/OnlineCustumer.AddEditOmniReview -->
+<!--<div class="p/" class="" style="border: 2px solid blue;"> <!~~ st/X, var/[small,big] ~~>
+	<div>- w/ui-msg/potvrzeniHodnoceniInLine</div> <!~~ st/X, var/X ~~>
+</div>-->
+<!-- - OK/sp/user-objednavky  (0/2w,se)  -->
+<!--<div class="p/" class="" style="border: 2px solid blue;"> <!~~ st/X, var/X ~~>
+	<div>- se/objednavkyTab <!~~ st/X, var/X ~~>
+		<div>productObjednavkyItem</div> <!~~ st/X, var/X ~~>
+	</div>
+</div>-->
+<!-- - OK/sp/user-objednavky-hodnoceni  (0/2w,se) -->
+<!--<div class="p/" class="" style="border: 2px solid blue;"> <!~~ st/X, var/X ~~>
+	<div>- se/objednavkaTab <!~~ st/X, var/X ~~>
+		<div>productObjednavkaItem</div> <!~~ st/X, var/X ~~>
+	</div>
+</div>-->
+
+
+<!-- SMS-RITELI - WIDGETS -->
+<!-- <div>- w/mainSearchBox</div>
+<div id="w/productRatingAndReviews">
+	<div id="">- se/starRating</div>
+	<div id="">- se/ratings</div>
+	<div id="">- se/ratingInfo</div>
+	<div id="">- se/reviewItem</div>
+</div> -->
+
+<!-- SMS-RITELI - UI -->
+<!-- - ui-m/menu - pro ctx/A(),B() -->
+<!-- - ui-mm/mega-menu - pro ctx/A(),B()  -->

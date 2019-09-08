@@ -1,0 +1,146 @@
+class Widgets extends Components {
+	
+	/* Legenda:
+		a - akce
+		ev-s - ???
+		ev-p - ???
+	*/
+
+	constructor() {
+		super();
+		this.define();
+	}
+
+	define() {
+
+		// app
+		this.w('mainMenu') // < fa/a/OK, ev-s,a-s/OK(30m)
+			.a('showORhide', (action) => { // create,edit
+				action.ev('click', { source: 'ch/ui/button:create' }) // target button
+					.set({ target: 'w/creator' });
+				action.ev('clickOutside') // otside popup
+					.set({ modal: 'w/creator' });
+			})
+			// k/search all elements
+			.a('search',(action) => { // el/orgUnit
+				let ev = action.ev('input text', { source: 'ch/ui/input:searchField' }) // with delay
+					.set({ searchedText: ev.text });
+			})
+			.a('show', (action) => { // < t/TODO: upravit vyhledavani, t/N
+				action.ev('action:start', { type: 'search', ctx:'undefined' })
+					.set({ target: 'ch/ui/popupBox:searchedResults' })
+			})
+			.a('hide', (action) => {  // t/N
+				action.ev('clickOutside').set({ target: 'ch/ui/popupBox:searchedResults' })
+				action.ev('input text', { source: 'ch/ui/input:searchField' })
+					.check((ev) => { return ev.searchText == '' })
+					.set({ target: 'ch/ui/popupBox:searchedResults' });
+			})
+			// ---
+			.a('goTo', (action) => { // settings
+				action.ev('click', { source: 'ch/b/button:settings' }).set({ url: 'planer/settings' });
+			}) 
+			.a('logOut',
+				action.ev('click', { source: 'ch/b/button:logOut' });
+			); 
+		this.w('projectStructureView') // -> a/X
+		this.w('creator') // /25m+ // < fa/a/OK
+			.a('input text', (action) => { // name, popis
+				let ev = action.ev('input text', [{ source: 'ch/ui/form:create.name' }, { source: 'ch/ui/form:create.popis' } ])
+					.set({ textToSave: ev.text });
+			})
+			// fu/save selected value
+			.a('select', (action) => { // parent, orgUnitType,orgUnitInHistory
+				let ev = action.ev('selected', [{ source: 'ch/ui/dropDown:orgUnitType' }, { source: 'ch/ui/dropDown:orgUnitInHistory'} ])
+					.set({ valueToSave: ev.selection });
+			})
+			// ---
+			.a('stepBackInEditHistory', (action) => { 
+				action.ev('click', { source: 'ch/ui/button:goBack' });
+			})
+			.a('confirm', (action) => {
+				action.ev('click', { source: 'ch/ui/button:save' })
+					.set({ dataStorageToSave: this.app.data.get('w/creator').dataStorage; });
+				action.nextAction('create', { dNode: { type:null, cfg: this.app.data.get('w/creator').dataStorage } });
+			})
+			.a('cancle', () => {
+				action.ev('click', { source: 'ch/ui/button:save' })
+					.set({ dataStorageToCleare: this.app.data.get('w/creator').dataStorage; });
+			}) 
+		// //this.w('editor') // < fa/ todo:akce,...
+		// X/this.w('quickCreator') // < k odstraneni
+
+		// this.w('parametresStandartEditor', 'aspectStandartEditor', 'connectionsStandartEditor') // a/OK // < fu/multi-widgets // < var/2
+		// 	.a('select') // parametrs/aspects/connections types, filters for connextions[byDir]
+		// 	.a('create')  // parametrs/aspects/connections types
+		// 	.a('') // w/quickCreatorEditor
+		this.w('aspectStandartEditor') // < fa/a/OK
+			.a('select', (action) => { // aspects types, filters for connextions[byDir]
+				let ev = action.ev('selected', { source: 'ch/ui/dropDown:aspectTypes' })
+					.set({ valueToSave: ev.selection })
+			}) 
+			.a('showORhide', (action) => { // aspects types
+				action.ev('click', { source: 'ch/w/button:create' }).set(target: { 'ch/w/quickCreatorEditor' });
+			})  
+		this.w('connectionsStandartEditor') // < fa/a/OK
+			.a('select', (action) => { // connections types, filters for connextions[byDir]
+				let ev = action.ev('selected', { source: 'ch/ui/dropDown:connectionTypes' })
+					.set({ valueToSave: ev.selection })
+			})
+			.a('showORhide', (action) => { // connections types
+				action.ev('click', { source: 'ch/w/button:create' }).set(target: { 'ch/w/quickCreatorEditor' });
+			})
+		this.w('progresEditor') // < fa/  // < definovat interni widgety
+			.a('setProgres', (action) => {
+				let ev = action.evp('press', { source: 'ch/ui/button:increaseProgres'  }).set({ valueChange: this.app.data.progresValueChange });
+				ev = action.evp('press', { source: 'ch/ui/button:decreaseProgres'  }).set({ valueChange: this.app.data.progresValueChange });
+			})
+		this.w('childsEditor') // < fa/a/OK // < definovat interni widgety
+			.a('[UI] openORClsoe', (action) => {
+				let ev = action.ev('click', { source: 'ch/ui/button:openORclose' }).set({ target: 'ch/ui/collapsableBox:progresEditor' });
+			})
+			.a('addFilter', (action) => {
+				action.ev('click', { source: 'ch/ui/button:addFilter' });
+			})
+			.a('cleareFilters', (action) => {
+				action.ev('click',  { source: 'ch/ui/button:clearFilters' });
+			})
+			.a('moveInStack', (action) => {
+
+				let area = { x:0, y:0, width: 100, height: 200  }; // < w/childsEditor.itemsBox (x,y,width,height)
+
+				let ev = action.evp('drag', { source: 'ch/w/filterChildsEditorItem' })
+					.set({ vertical:true, mouseX: ev.mouseX, mouseY: ev.mouseY, area: area  })
+			})
+		this.w('quickCreatorEditor') // < fa/a/OK
+			.a('confim', (action) => {
+				action.ev('click', { source: 'ch/ui/button:save' })
+					.set({ dataToSave: this.app.data.get('w/quickCreator:id').dataStorage; });
+					.exe([ this.app.data.get('w/quickCreator:id').dataStorage.save() ]) // < var/2
+				
+				action.nextAction('create', { dNode: { type:null, name: this.app.data.get('w/quickCreator:id').dataStorage.name } });
+			})
+			.a('cancle', (action) => {
+				action.ev('click', { source: 'ch/ui/button:save' })
+					.set({ dataStorageToCleare: this.app.data.get('w/quickCreator:id').dataStorage; })
+					.exe([ this.app.data.get('w/quickCreator:id').dataStorage.clear() ]) // < var/2
+			})
+			.a('input text', () => {
+				let ev = action.ev('inputText').set({ textToSave: ev.text });
+			})
+		this.w('filterChildsEditorItem') // < fa/a/OK
+			// fu/save selected value
+			.a('select', (action) => { // parent, orgUnitType,orgUnitInHistory
+				let ev = action.ev('selected', [{ source: 'ch/ui/dropDown:project' }, { source: 'ch/ui/dropDown:requester' }, { source: 'ch/ui/dropDown:owner'}, { source: 'ch/ui/dropDown:team' } ])
+					.set({ valueToSave: ev.selection });
+			})
+			// ---
+			.a('delete', (action) => {
+				action.ev('click', { source: 'ch/ui/button:delete' })
+					.set( dNode: { type:null, id:0 } );
+			});
+			.a('[UI] showORhide', (action) => {
+				action.ev('click', { source: 'ch/ui/button:actionsForFilters' }).set({ target: 'ch/ui/popupMenu:actionsForFilters' });
+			});
+	}
+}

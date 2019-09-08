@@ -1,0 +1,11 @@
+class PlanerApp extends Components {
+	
+	constructor() {
+		super();
+		this.define();
+	}
+
+	define() {
+		this.initApp('planer');
+	}
+}

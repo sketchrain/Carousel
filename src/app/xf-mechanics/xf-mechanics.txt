@@ -1,0 +1,165 @@
+// XF-MECHANICS
+
+// FUNKČNOSTI
+	
+	// fu/save selected value
+
+// UI-ELEMENTS
+
+	// ui/button
+	// ui/drop-down
+	// ui/collapsableBox
+	// ui/popupMenu
+
+// EVENTS
+	// ev/click { source: }
+	// ev/clickOutside { X }
+	// ev/input text { text:string }
+	// ev/selected { selection:any }
+	// evp/drag { source:VisElement }
+
+// AKCE (/15a)
+	
+	
+	
+	
+	 
+	// a/delete { dNode: { type:any,id:num } }
+	// a/addFilter { X }
+	// a/cleareFilters { X }
+	// a/moveInStac exp:/{ vertical:true, mouseX: ev.mouseX, mouseY: ev.mouseY, area: area  }
+
+class Actions extends Components {
+	
+	constructor() {
+		super();
+		this.define();
+	}
+
+	define() { // (3/15a)
+
+		// UI
+		this.createAction('showORhide', (prms:{ target:any }) => { // /OK /30m
+			// a/[UI] showORhide { target:(visElement) }
+			this.app.data.setState(prms.target, (target:any) => {
+				target.show = target.show ? false : true;
+			});
+		});
+		this.createAction('openORclose', (prms:{ target:any }) => { // /OK /5m
+			// a/[UI] openORClose { target:(visElement) }
+			this.app.data.setState(prms.target, (target:any) => {
+				target.open = target.open ? false : true;
+			});
+		});
+		
+		// NAV
+		this.createAction('goTo', (prms:{ target:any }) => { // OK /40m+
+			// a/goTo { url:string }
+			this.app.router.navigateByUrl(prms.url);
+		});
+		// AUTH
+		// register // < t/TODO:
+		// logIn // < t/TODO:
+		this.createAction('logOut', (prms:{ target:any }) => { // OK /10m
+			// a/logOut { X }
+			this.app.op.deauthnetization();
+			this.nextAction('goTo', { url: 'planer/auth' });
+		});
+		// OTHERS
+		this.createAction('search', (prms:{ searchedText:any }):any[] => { // /OK /1h15m+
+			// a/search { searchedText:string }
+
+			// vyhledat data v z databaze
+			let collections:any[] = this.app.data.getAllCollection();
+			let findedDocuments = collections.map((collection) => {
+				return collection.find({ name: { $eq: prms.searchedText } })
+			});
+
+			// zmenit stav, zobrazit data ve visualu
+			this.app.data.setState('w/mainMenu', (mainMenu) => {
+				mainMenu.searchedResults = findedDocuments;
+			})
+
+			// < var/2
+			this.app.data.setState('w/mainMenu.ui/popupBox:searchResults', (data) => {
+				data = findedDocuments;
+			})
+		});
+		this.createAction('input text', (prms:{ target:any, textToSave:string }) => { // OK /10m
+			// a/input text { textToSave:string }
+			this.app.data.setState(, (state:any) => {
+				this.app.setState(prms.target, (data) => {
+					data.text = prms.textToSave;
+				});
+			});
+		});
+		this.createAction('select', (prms:{ target:any, selection:any }) => { // /OK /5m
+			// a/select { valueToSave:any }
+			this.app.data.setState(, (state:any) => {
+				this.app.setState(prms.target, (data) => {
+					data.text = prms.selection;
+				});
+			});
+		});
+		this.createAction('stepBackInEditHistory', (prms:{ target:any }) => { // OK /15m
+			// a/stepBackInEditHistory { ? }
+			this.app.data.setState('creator', (creator:any) => {
+				
+				// op/removeActiveCreator
+				// < var/1
+				let prevCreator = creator.activeCreators[creator.activeCreator.length-1]
+				prevCreator.current = false;
+				
+				let currentCreator = creator.activeCreators[creator.activeCreator.length-2]
+				currentCreator.curent = true;
+
+				// < var2/
+				creator.activeCreators.splice(creator.activeCreators.length-1, 1);
+			});
+		});
+		this.createAction('confirm'); // -> mech/X OK /5m // a/confirm { target:, dataToSave: }
+		this.createAction('cancle', (prms:{  dataStorageToClear:any }) => { // OK /10m
+			// a/cancle { dataStorageToClear:  }
+			dataStorageToClear.clear();
+		});
+		this.createAction('create', (prms:{ type:any, name:string, cfg:any }) => { // OK /5m
+			// a/create { dNode: { type:any, name:string, cfg:CfgForDNodeType } }
+			this.app.data.setState(, (data:any) => {
+				let collection = this.app.data.getAllCollectionByType(prms.type);
+				
+				if(prms.name) {
+					collection.insert({
+						name: prms.name,
+					});
+				}
+				else {
+					collection.insert({
+						...prms.cfg,
+					});
+				}
+			});
+		});
+
+		// SABLONA
+		this.createAction('', (prms:{ target:any }) => { // /R /
+			// a/akce { X }
+			this.app.data.setState(, (state:any) => {
+				this.app.auth.
+			});
+		});
+
+	}
+}
+
+// OPERATIONS
+
+	// AUTH
+	// op/deauthentization
+	// op/authentization
+
+	// op/addActiveCreator
+	// op/removeActiveCreator
+
+// OPERATIONS - API
+
+	// .clear()
