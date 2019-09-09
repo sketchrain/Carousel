@@ -1,6 +1,6 @@
 # HEADER SLIDESHOW
 <h3>
-  <a href="https://header-slideshow.herokuapp.com/">LIVE example</a>
+  <a href="https://header-slideshow.herokuapp.com/" target="_blank">LIVE example</a>
 </h3>
 
 ## Features
