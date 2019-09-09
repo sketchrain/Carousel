@@ -21,14 +21,15 @@
 		<div class="ui vertical segment">
 			<w-carousal [value]="setCarousel()" ></w-carousal>
 		</div>
-		<div class="ui vertical segment">
+		<div *ngIf="data.showSendJSON" class="ui vertical segment">
 			<!--se/info message-->
 			<div class="ui success message"> <!--negative-->
-			  <i class="close icon"></i>
+			  <i name="close:icon" class="close icon" (click)="click($event)"></i>
 			  <div class="header">
-			    Carousel JSON setting object:
+			    Carousel JSON setting object odeslán na server: API endpoint - api/carousel:
 			  </div>
-			  <p>{{ serverResponseText }}</p>
+			  <!--<p>{{ serverResponseText }}</p>-->
+			  <p>{{ data.sendJSON }}</p>
 			</div>
 		</div>
 		<!--stare-->
@@ -48,10 +49,10 @@
 				<i class="big right angle icon" (click)="onNextNav()"></i>
 				
 				<ng-container #slide *ngFor="let item of value" >
-					<div class="image slide" [ngClass]="{ 'active': item.active }">
+					<div class="slide faded" [ngClass]="{ 'active': item.active, 'image1': item.image == 0, 'image2': item.image == 1, 'image3': item.image == 2 }">
 						<!--<h2>{{ item.header }}</h2>-->
 						<div class="line"></div>
-						<h2>Welcome to our Brandportal</h2>
+						<h2>{{ item.header }}</h2>
 						<!--<p>slide: {{ item.name }}</p>-->
 						<button name="ui/button:slideBtn" class="ui white button" (click)="click($event, item)"><span style="color: black;">{{ item.linkTo.text }}</span></button>
 					</div>
@@ -117,16 +118,25 @@
 										<div class="item" data-value="0">Type B</div>
 									</div>
 								</div>-->
-								<sui-select class="selection" [options]="['A','B','C','D']" placeholder="animation" #select>
+								<sui-select class="selection" [options]="['animation 1', 'animation 2']" placeholder="Animation" #select>
 									<sui-select-option *ngFor="let option of select.filteredOptions" [value]="option"></sui-select-option>
 								</sui-select>
 							</div>
 							<div class="ui basic segment">
 								<h4 class="ui header">&nbsp;</h4>
 								<!--ui/dropdown:animationInterval-->
-								<sui-select class="selection" [options]="['A','B','C','D']" placeholder="interval" [isDisabled]="true" #select>
-									<sui-select-option *ngFor="let option of select.filteredOptions" [value]="option"></sui-select-option>
-								</sui-select>
+								<!--<sui-select class="selection" placeholder="Interval" [isDisabled]="true" #select>
+									<!~~<sui-select-option *ngFor="let option of select.filteredOptions" [value]="option"></sui-select-option>~~>
+								</sui-select>-->
+								<div class="ui selection disabled dropdown">
+									<input type="hidden" name="gender">
+									<i class="dropdown icon"></i>
+									<div class="default text">Interval</div>
+									<!--<div class="menu">
+										<div class="item" data-value="1">Type A</div>
+										<div class="item" data-value="0">Type B</div>
+									</div>-->
+								</div>
 							</div>
 						</div>
 					</div>
@@ -201,12 +211,12 @@
 				<div class="item-cell ui segment" style="width: 150px; border-color: white;">
 					<span><i name="ui/button/icon:drag" class="bars icon"></i></span>
 					<div name="ui/inputText:subheader" class="ui input">
-						<input type="text" placeholder="Search...">
+						<input type="text" placeholder="subheader">
 					</div>
 				</div>
 				<div class="item-cell ui segment" style="width: 150px; border-color: white;">
 					<div name="ui/inputText:header" class="ui input" style="margin-right: 10px;">
-						<input type="text" placeholder="Search...">
+						<input [(ngModel)]="data.header"  type="text" placeholder="header">
 					</div>
 					<div name="ui/switcher:inverted" class="ui fitted toggle checkbox">
 					<input type="checkbox">
@@ -238,7 +248,7 @@
 											</button>
 										</div>
 										<div class="column">
-											<img name="ui/image:photo" class="ui small image" src="https://semantic-ui.com/images/wireframe/image.png">
+											<img name="ui/image:photo" class="ui small" src="https://semantic-ui.com/images/wireframe/image.png" style="width: 60px">
 										</div>
 									</div>
 								</div>
@@ -261,8 +271,8 @@
 						<i class="ellipsis horizontal icon"></i>
 						<div class="menu" suiDropdownMenu>
 							<a name="ui/dropdownMenu:moreActions" class="item" (click)="click($event, 'none')"><i class="clone outline icon"></i> Duplicate</a>
-							<a name="ui/dropdownMenu:moreActions" class="item" (click)="click($event, 'delete')"><i class="plus icon"></i> More Options</a>
-							<a name="ui/dropdownMenu:moreActions" class="item" (click)="click($event, 'moreOptions')"><i class="trash alternate icon"></i> Delete</a>
+							<a name="ui/dropdownMenu:moreActions" class="item" (click)="click($event, 'delete')"><i class="plus icon"></i> Delete</a>
+							<a name="ui/dropdownMenu:moreActions" class="item" (click)="click($event, 'moreOptions')"><i class="trash alternate icon"></i> More Options</a>
 						</div>
 					</div>
 
@@ -273,18 +283,18 @@
 				<div class="item-cell ui segment">
 					<h5>Btn text</h5>
 					<div name="ui/inputText:header" class="ui input">
-						<input type="text" placeholder="input B">
+						<input [(ngModel)]="data.linkTo.text" type="text" placeholder="input B">
 					</div>
 				</div>
 				<div class="item-cell ui segment">
 					<h5>Btn link</h5>
 					<div name="ui/inputText:header" class="ui input">
-						<input type="text" placeholder="input B">
+						<input [(ngModel)]="data.linkTo.url" type="text" placeholder="input B">
 					</div>
 				</div>
 				<div class="item-cell ui segment">
 					<h5>&nbsp;</h5>
-					<sui-select class="selection" [options]="['A','B','C','D']" #select>
+					<sui-select class="selection" [options]="this.openInOptions"  placeholder="Open in" #select>
 						<sui-select-option *ngFor="let option of select.filteredOptions" [value]="option"></sui-select-option>
 					</sui-select>
 				</div>

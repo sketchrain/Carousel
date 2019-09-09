@@ -13,7 +13,8 @@ import { AppTests } from '../../ngt-mechanics/ngt-tests';
 import { Interactions } from '../../ngt-mechanics/ngt-interactions';
 import { Reducers} from '../../ngt-mechanics/ngt-redukce';
 import { Selectors } from '../../ngt-mechanics/ngt-sel';
-import { States, DNWAdminPanel, DNSlide, DNSlider } from '../../ngt-mechanics/ngt-states';
+import { ServerAPI, ICarouselSetting } from '../../ngt-mechanics/ngt-server';
+import { States, DNWApp, DNWAdminPanel, DNSlide, DNSlider } from '../../ngt-mechanics/ngt-states';
 import { UIEvents } from '../../ngt-mechanics/ngt-ui';
 import * as M from '../../ngt-mechanics/ngt-states';
 import { Mock } from '../../ngt-mechanics/ngt-mocks';
@@ -165,6 +166,7 @@ export class AppComponent extends CWidget   {
 	// Data
 	dnWAdminPanel:DNWAdminPanel;
 	dnSlider:DNSlider;
+	data:DNWApp
 
 	constructor(
 		m:Managers,
@@ -185,13 +187,21 @@ export class AppComponent extends CWidget   {
 		}
 
 		this.m.dm3.define([
+			new DNWApp,
 			new DNWAdminPanel(),
 			new DNSlider([
-				new DNSlide('Slide 1', true),
+				new DNSlide('Welcome to our Brandportal', true, { text:'LEARN MORE', url:'https://www.madeo.com/', openIn:true }),
 				//new DNSlide('Slide 2', false),
 				//new DNSlide('Slide 3', false),
 			])
 		]);
+
+		// set images
+		let dnSlider:DNSlider = this.m.dm3.select(DNSlider);
+		dnSlider.slides.map((dnSlide:DNSlide) => {
+			dnSlide.slider = dnSlider;
+			dnSlide.setImage();
+		});
 
 		//console.log = function() {}; 
 
@@ -210,6 +220,8 @@ export class AppComponent extends CWidget   {
 		//this._tests.unitTests();
 		super.ngOnInit();
 		
+		this.data = this.m.dm3.select(DNWApp);
+
 		this.dnWAdminPanel = this.m.dm3.select(DNWAdminPanel);
 		this.dnSlider = this.m.dm3.select(DNSlider);
 		// Init
@@ -262,7 +274,6 @@ export class AppComponent extends CWidget   {
 
 	// Events
 	click(ev) {
-		console.log('WApp.click()', ev.target);
 		let ui = ev.currentTarget.getAttribute('name');
 		
 		switch (ui) {
@@ -273,6 +284,9 @@ export class AppComponent extends CWidget   {
 				// console.log('- wAdminPanel: ', wAdminPanel);
 				this.dnWAdminPanel.show = true;
 				break;
+			case "close:icon":
+			this.data.showSendJSON = false;
+			break;
 
 			default:
 				console.log('no ui element difine');
@@ -402,7 +416,7 @@ export class WCarousel extends CWidget {
 		// 	return slide == slide.active;
 		// })
 
-		window.open(currentSlide.linkTo.url, currentSlide.linkTo.openIn ? '_blank'  : '_self' );
+		window.open('http://' + currentSlide.linkTo.url, currentSlide.linkTo.openIn ? '_blank'  : '_self' );
  	}
 
  	_value:any[] = [];
@@ -429,8 +443,11 @@ export class WAdminPanel extends CWidget {
 	se_show:boolean = false; // < w/logIn, signIn
 	saved:boolean = false;
 	testA:string = 'x';
+	dnWApp:DNWApp;
 
-	constructor(m:Managers) { // < private _sel:Selectors
+	animations:string[] = [];
+
+	constructor(m:Managers, private server:ServerAPI) { // < private _sel:Selectors
 		super(m);
 		//this.al.log('Ang,Con', undefined, '[Bootstrap Init] %s - con', [this.temp], null);
 		
@@ -449,13 +466,21 @@ export class WAdminPanel extends CWidget {
 
 		dnWAdminPanel.widget = this.data;
 		this.setupSliderTemp();
+
+		this.dnWApp = this.m.dm3.select(DNWApp);
+
+		this.animations = [
+			'animation 1',
+			'animation 2'
+		]
 	}
 
 	ngOnDestroy() {
 		super.ngOnDestroy();
 
 		if(this.saved) {
-			this.updateSlider();
+			let slider:DNSlider = this.updateSlider();
+			this.sendJSONtoServer(slider);
 		}
 
 		this.cleareSliderTemp();
@@ -464,6 +489,7 @@ export class WAdminPanel extends CWidget {
 	// Operations
 	setupSliderTemp():DNSlider {
 		let slider = this.m.dm3.select(DNSlider);
+		this.data.slider = slider;
 		this.data.sliderTemp = { ...slider };
 		return this.data.sliderTemp;
 	}
@@ -501,6 +527,7 @@ export class WAdminPanel extends CWidget {
 				this.data.show = false;
 				this.saved = true;
 				modal.approve();
+				
 				//this.im.dispatch('[UI Show/Hide] show', { widget:'w/adminPanel', ui: ui, target: this.data, ctx:'save', sendJSONtoServer:true, serverRequset:serverRequest });
 				break;
 
@@ -508,6 +535,32 @@ export class WAdminPanel extends CWidget {
 				console.log('no ui element difine');
 				break;
 		}
+	}
+
+	sendJSONtoServer(slider:DNSlider) {
+
+		let carouselSetting:ICarouselSetting = {
+			
+			size: slider.size,
+			animation: slider.animation,
+
+			slides: slider.slides.map((slide) => {
+				return {
+					active: slide.active,
+					linkTo: slide.linkTo,
+					header: slide.header,
+					image: slide.image,
+				};
+			})
+		};
+
+		this.server.carousel(carouselSetting, (res:any) => {
+			console.log('result: ', res);
+			return res;
+		});
+
+		this.dnWApp.sendJSON = JSON.stringify(carouselSetting);
+		this.dnWApp.showSendJSON = true;
 	}
 }
 
@@ -544,6 +597,9 @@ export class WTilesEditor extends CWidget {
 			case "ui/button:createSlide":
 				let createdSlide = new DNSlide('New Slide', false);
 				this.data.sliderTemp.slides.push(createdSlide);
+
+				createdSlide.slider = this.data.slider;
+				createdSlide.setImage();
 				break;
 
 			default:
@@ -568,6 +624,7 @@ export class WTileItem extends CWidget {
 	//slide:DNSlide;
 	
 	open:boolean = false; // < w/logIn, signIn
+	openInOptions:string[] = [];
 
 	constructor(m:Managers) { // < private _sel:Selectors
 		super(m);
@@ -577,6 +634,15 @@ export class WTileItem extends CWidget {
 		// this.m.se.listenToSel(DNWAdminPanel, (dNode:DNWTileItem) => {
 		// 	this.se_open = dNode.open;
 		// });
+	}
+
+	ngOnInit() {
+		super.ngOnInit();
+
+		this.openInOptions = [
+			'new window',
+			'this page',
+		]
 	}
 
 	// Events

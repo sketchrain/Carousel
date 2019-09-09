@@ -95,19 +95,20 @@ var agregateProgres = function () {
 // ------------------------------------------------------------------------------------
 var SCarousel = new mongoose.Schema({
 	
+	name: { type: Number, default: 'carousel' },
 	size: { type: Number },
-	pages:Number,
-	slides: [{ 
-		animation: { 
-			type: String, 
-			interval:Number 
-		},
-		linkTo: { 
-			text:String, 
-			url:String, 
-			openIn:Boolean 
-		}
-	}],
+
+	// slides: [{ 
+	// 	animation: { 
+	// 		type: String, 
+	// 		interval:Number 
+	// 	},
+	// 	linkTo: { 
+	// 		text:String, 
+	// 		url:String, 
+	// 		openIn:Boolean 
+	// 	}
+	// }],
 
 });
 

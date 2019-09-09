@@ -247,22 +247,20 @@ export class OUserSession extends AXObject {
 
 // CAROUSEL - DATA
 
-
 export class DNSlide  {
 	
 	widget:any;
 	active:boolean = false;
-	animation: {
-		type:string,
-		interval:number
-	};
-
+	
 	linkTo: {
 		text:string,
 		url:string,
 		openIn:true
 	};
+
 	header:string;
+	image:number = 0;
+	slider:DNSlider;
 
 	constructor(header:string, active:boolean = false, linkTo?:any) {
 		this.header = header;
@@ -270,20 +268,37 @@ export class DNSlide  {
 		this.linkTo = linkTo
 			? linkTo
 			: {
-				text:'btn',
-				url: 'http://www.angular.io',
-				openIn: true,
+				text: linkTo && linkTo.text ? linkTo.text : 'Btn',
+				url: linkTo && linkTo.url ? linkTo.url :  '',
+				openIn: linkTo && linkTo.openIn ? linkTo.openIn : true,
 			};
+	}
+
+	setImage() {
+		
+		this.image = this.slider.imageCount;
+		this.slider.imageCount++;
+
+		if(this.slider.imageCount > 2) {
+			this.slider.imageCount = 0;
+		}
 	}
 }
 
 export class DNSlider  {
 	
 	widget:any;
+	
 	size:number;
+	animation: {
+		type:string,
+		interval:number
+	};
+
 	pages:number;
 	subHeader:string = 'x';
 	slides:DNSlide[];
+	imageCount = 0;
 
 	constructor(slides:DNSlide[] = []) {
 		this.slides = slides;
@@ -294,7 +309,19 @@ export class DNWAdminPanel  {
 	
 	widget:any;
 	show:boolean = false;
+	slider:DNSlider;
 	sliderTemp:DNSlider;
+
+	constructor() {
+
+	}
+}
+
+export class DNWApp {
+
+
+	sendJSON:any;
+	showSendJSON:Boolean = false;
 
 	constructor() {
 

@@ -13,6 +13,31 @@ import { ALoger } from '../../flow/loger/loger';
 import { environment } from '../../environments/environment'
 import * as IM from './ngt-in';
 
+export interface ICarouselSettingSlide  {
+
+	active:boolean;
+	
+	linkTo: {
+		text:string,
+		url:string,
+		openIn:true
+	};
+
+	header:string;
+	image:number
+}
+
+export interface ICarouselSetting  {
+
+	size:number;
+	animation: {
+		type:string;
+		interval:number;
+	};
+
+	slides: ICarouselSettingSlide [];
+}
+
 // OBEJCTS
 class ServerResponse {
 	
@@ -175,6 +200,30 @@ export class ServerAPI {
 	constructor (
 		private apiService: ApiService
 	) {}
+
+	carousel(carouselSetting:ICarouselSetting, clbResponse:any):Subject<any>  {
+		let result = new Subject<any>();
+		let res = new ServerResponse();
+
+		this.apiService.put('/carousel', { carousel: carouselSetting })
+			.subscribe(
+				(resJSON:any) => {
+					res.data = resJSON.updatedTypeInst;
+					res.succes = true;
+
+					let _next = clbResponse(res);
+					result.next(_next);
+
+				},
+				(err) => {
+					res.succes = false;
+
+					let _next = clbResponse(res);
+					result.next(_next);
+				}
+			);		
+		return result;
+	}
 
 	// AUTH
 	logIn(user:IM.IDUser, clbResponse:any, dbg?:any):Subject<any>  { // OK/ 15m

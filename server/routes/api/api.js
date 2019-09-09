@@ -183,19 +183,16 @@ router.param('instance', function(req, res, next, instance) { // Ok/impl
 // CAROUSEL - API
 router.put('/carousel', auth.required, function(req, res, next){
 	
-	Carousel.findById(req.payload.id).then(function(carousel){
+	Carousel.findOne({ name: 'carousel' }).then(function(carousel){
 		if(!carousel){ return res.sendStatus(401); }
 
 	    //only update fields that were actually passed...
 	    if(typeof req.body.carousel.size !== 'undefined'){
 	    	carousel.size = req.body.carousel.size;
 	    }
-	    if(typeof req.body.carousel.pages !== 'undefined'){
-	    	carousel.pages = req.body.carousel.pages;
-	    }
-	    if(typeof req.body.carousel.pages !== 'undefined'){
-	    	carousel.pages = req.body.carousel.pages;
-	    }
+	    // if(typeof req.body.carousel.pages !== 'undefined'){
+	    // 	carousel.pages = req.body.carousel.pages;
+	    // }
 
 	    return carousel.save().then(function(){
 			return res.json({carousel: carousel.toAuthJSON()});
