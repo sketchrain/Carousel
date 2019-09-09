@@ -4,4 +4,4 @@
 </h3>
 
 ## Features
-<img align="left" width="350" height="333" src="http://i.ibb.co/pWjh5gh/testA.gif"/>
+<img align="left" src="https://i.ibb.co/L9tL6t5/Carousel-Features2.gif"/>
